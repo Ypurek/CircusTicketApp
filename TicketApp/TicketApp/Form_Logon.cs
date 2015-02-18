@@ -18,7 +18,7 @@ namespace TicketApp
         {
             InitializeComponent();
             userList = new List<User>();
-            readUserList(TicketApp.Properties.Resources.UserDB);
+            readUserList(TicketApp.Properties.Settings.Default.UserDB);
         }
 
         private void button2_Click(object sender, EventArgs e)
@@ -71,7 +71,7 @@ namespace TicketApp
         {
             userList.Clear();
 
-            if (!File.Exists(TicketApp.Properties.Resources.UserDB))
+            if (!File.Exists(TicketApp.Properties.Settings.Default.UserDB))
                 return;
 
             // work with files. try-catch for noobs
@@ -104,7 +104,8 @@ namespace TicketApp
                                   textBox2.Text); //pass
             userList.Add(user);
 
-            writeUserList(TicketApp.Properties.Resources.UserDB);
+            writeUserList(TicketApp.Properties.Settings.Default.UserDB);
+            
 
             Form_Tickets TicketForm = new Form_Tickets(user);
             this.Hide();

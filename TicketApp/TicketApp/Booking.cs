@@ -76,5 +76,56 @@ namespace TicketApp
         }
     }
 
+    [Serializable]
+    public class Ticket
+    {
+        private Guid id;
+        private DateTime date;
+        private int time;
+        private string program;
+        private TicketStatus status;
+        private DateTime bookingTimeout;
 
+        public string ID { get { return id.ToString().Remove(9); } }
+        public string Program { get { return program; } }
+
+        public Ticket()
+        {
+            id = new Guid();
+            status = TicketStatus.Available;
+        }
+
+        public Ticket(string program) : this()
+        {
+            this.program = program;
+        }
+
+        public Ticket(string program, DateTime date, int time)
+            : this(program)
+        {
+            this.date = date;
+            this.time = time;
+
+        }
+
+        public void Book()
+        {
+            status = TicketStatus.Book;
+            bookingTimeout = DateTime.Now;
+        }
+
+        public void Buy()
+        {
+            status = TicketStatus.Buy;
+        }
+    }
+
+    public enum TicketStatus
+    {
+        Available = 0,
+        Book = 1,
+        Buy = 2
+    }
+
+    
 }

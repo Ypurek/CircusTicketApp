@@ -3,7 +3,7 @@
   <Profiles />
   <Settings>
     <Setting Name="UserDB" Type="System.String" Scope="Application">
-      <Value Profile="(Default)">user.dat</Value>
+      <Value Profile="(Default)">users.dat</Value>
     </Setting>
   </Settings>
 </SettingsFile>

@@ -9,6 +9,11 @@ Give experience to QA Standard attendees in
  - test case creation
  - requirements implementaion
 
+SYSTEM REQUIREMENTS
+ - Window 7 or higher
+ - MS .NET Framework 4.5
+
+------------------------------------------------------------------------------
 RELEASE NOTES
 
 VERSION 0.2

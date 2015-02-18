@@ -17,13 +17,13 @@ namespace TicketApp
         public Form_Tickets()
         {
             InitializeComponent();
+            label3.Text = "Performance Time: " + get12hTime(trackBar1.Value);
             currentUser = new User("Anonymous", "");
             linkLabel1.Text = currentUser.Login;
         }
 
-        public Form_Tickets(User user)
+        public Form_Tickets(User user) : this()
         {
-            InitializeComponent();
             currentUser = user;
             linkLabel1.Text = currentUser.Login;
         }
@@ -50,6 +50,33 @@ namespace TicketApp
             string date = dateTimePicker1.Value.ToString();
         }
 
+        private void aboutToolStripMenuItem1_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show(
+                String.Format("Ticket App. Version {0}", ProductVersion.Remove(ProductVersion.LastIndexOf('.'))),
+                "About",
+                MessageBoxButtons.OK);
+        }
+
+        private void trackBar1_Scroll(object sender, EventArgs e)
+        {
+            label3.Text = "Performance Time: " + get12hTime(trackBar1.Value);
+        }
+
+        private string get12hTime(int time)
+        {
+            int x = time % 12;
+            if (x == 0)
+                return time.ToString() + " a.m.";
+
+            return x.ToString() + " p.m.";
+        }
+
+        public void GetCurrentProgram(DateTime date, int time)
+        {
+
+
+        }
 
     }
 }

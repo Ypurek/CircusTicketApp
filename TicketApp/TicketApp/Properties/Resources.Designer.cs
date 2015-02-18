@@ -59,14 +59,5 @@ namespace TicketApp.Properties {
                 resourceCulture = value;
             }
         }
-        
-        /// <summary>
-        ///   Looks up a localized string similar to users.dat.
-        /// </summary>
-        internal static string UserDB {
-            get {
-                return ResourceManager.GetString("UserDB", resourceCulture);
-            }
-        }
     }
 }

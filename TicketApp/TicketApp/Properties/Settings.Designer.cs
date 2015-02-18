@@ -25,7 +25,7 @@ namespace TicketApp.Properties {
         
         [global::System.Configuration.ApplicationScopedSettingAttribute()]
         [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
-        [global::System.Configuration.DefaultSettingValueAttribute("user.dat")]
+        [global::System.Configuration.DefaultSettingValueAttribute("users.dat")]
         public string UserDB {
             get {
                 return ((string)(this["UserDB"]));
