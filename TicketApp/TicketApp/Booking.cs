@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.IO;
+using System.Runtime.Serialization.Formatters.Binary;
 
 namespace TicketApp
 {
@@ -13,7 +14,7 @@ namespace TicketApp
     {
         const int bookingTimeout = 5;
         
-        private Guid id;
+        private int id;
         private DateTime date;
         private int time;
         private string program;
@@ -21,12 +22,19 @@ namespace TicketApp
         private DateTime bookingTime;
         private string bookingUser;
 
-        public string ID { get { return id.ToString().Remove(9); } }
+        public string Pet = "";
+        public bool Snack = false;
+
+        public DateTime Date { get { return date; } }
+        public int Time { get { return time; } }
+        public TicketStatus Status { get { return status; } }
+        public string ID { get { return id.ToString(); } }
         public string Program { get { return program; } }
 
         public Ticket()
         {
-            id = new Guid();
+            Random r = new Random(42);
+            id = r.Next(10000000, 99999999);
             status = TicketStatus.Available;
         }
 
@@ -40,7 +48,6 @@ namespace TicketApp
         {
             this.date = date;
             this.time = time;
-
         }
 
         
@@ -77,6 +84,87 @@ namespace TicketApp
         {
             if ((status == TicketStatus.Book) && (DateTime.Now - bookingTime).TotalMinutes > bookingTimeout)
                 status = TicketStatus.Available;
+        }
+    }
+
+    public class TicketManager
+    {
+        private List<Ticket> ticketList;
+        private string fileName;
+
+        public TicketManager(string fileName)
+        {
+            this.fileName = fileName;
+            readTicketsDB();
+        }
+
+        public void writeTicketsDB()
+        {
+            writeTicketsDB(ticketList, fileName);
+        }
+        
+        public void writeTicketsDB(List<Ticket> TicketList, string fileName)
+        {
+            // work with files. try-catch for noobs
+            FileStream stream = File.Create(fileName);
+            BinaryFormatter formatter = new BinaryFormatter();
+            formatter.Serialize(stream, TicketList);
+            stream.Close();
+        }
+
+        public void readTicketsDB()
+        {
+            ticketList = readTicketsDB(fileName);
+        }
+        
+        public List<Ticket> readTicketsDB(string fileName)
+        {
+            if (!File.Exists(fileName))
+                return null;
+
+            List<Ticket> TicketList;
+
+            // work with files. try-catch for noobs
+            FileStream stream = File.OpenRead(fileName);
+            BinaryFormatter formatter = new BinaryFormatter();
+            TicketList = (List<Ticket>)formatter.Deserialize(stream);
+            stream.Close();
+
+            return TicketList;
+        }
+
+        public List<Ticket> GetTicketsByDate(DateTime date)
+        {
+            return ticketList.FindAll(x =>
+                   x.Date.Day == date.Day &&
+                   x.Date.Month == date.Month &&
+                   x.Date.Year == date.Year);
+        }
+
+        public List<Ticket> GetAvailableTicketsByDateTime(DateTime date, int time)
+        {
+            List<Ticket> list = GetTicketsByDate(date);
+            return list.FindAll(x => x.Time == time && x.Status == TicketStatus.Available);
+        }
+
+        public Ticket Book(DateTime date, int time, User user)
+        {
+            Ticket t = null;
+            
+            List<Ticket> list = GetAvailableTicketsByDateTime(date, time);
+            if (list.Count > 0)
+                (t = list[0]).Book(user);
+
+            writeTicketsDB();
+            return t;
+        }
+
+        public void Refresh()
+        {
+            foreach (Ticket t in ticketList)
+                t.Unbook();
+            
+            writeTicketsDB();
         }
     }
 

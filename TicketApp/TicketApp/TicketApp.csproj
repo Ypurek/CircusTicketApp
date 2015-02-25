@@ -74,6 +74,18 @@
   <ItemGroup>
     <Compile Include="Booking.cs" />
     <Compile Include="Coupons.cs" />
+    <Compile Include="Form_BDay.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_BDay.Designer.cs">
+      <DependentUpon>Form_BDay.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Form_Buy.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Form_Buy.Designer.cs">
+      <DependentUpon>Form_Buy.cs</DependentUpon>
+    </Compile>
     <Compile Include="Form_Logon.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -95,6 +107,12 @@
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="UserManager.cs" />
+    <EmbeddedResource Include="Form_BDay.resx">
+      <DependentUpon>Form_BDay.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Form_Buy.resx">
+      <DependentUpon>Form_Buy.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="Form_Logon.resx">
       <DependentUpon>Form_Logon.cs</DependentUpon>
     </EmbeddedResource>
@@ -123,6 +141,9 @@
       <DependentUpon>Settings.settings</DependentUpon>
       <DesignTimeSharedInput>True</DesignTimeSharedInput>
     </Compile>
+    <None Include="ticketsDB.dat">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -151,6 +172,7 @@
     <Content Include="ReadMe.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\cats.png" />
     <None Include="Resources\Person_img.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

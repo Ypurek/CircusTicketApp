@@ -31,5 +31,32 @@ namespace TicketApp.Properties {
                 return ((string)(this["UserDB"]));
             }
         }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("ticketsDB.dat")]
+        public string TicketDB {
+            get {
+                return ((string)(this["TicketDB"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("coupons.txt")]
+        public string CouponDB {
+            get {
+                return ((string)(this["CouponDB"]));
+            }
+        }
+        
+        [global::System.Configuration.ApplicationScopedSettingAttribute()]
+        [global::System.Diagnostics.DebuggerNonUserCodeAttribute()]
+        [global::System.Configuration.DefaultSettingValueAttribute("0")]
+        public int BuyCount {
+            get {
+                return ((int)(this["BuyCount"]));
+            }
+        }
     }
 }
