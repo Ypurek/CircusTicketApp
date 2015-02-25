@@ -7,84 +7,19 @@ using System.IO;
 
 namespace TicketApp
 {
-    class Booking
-    {
-        // private string 
-        
-        public void Bookong()
-        {
-
-        }
-
-        public void ReadProgram(string filepath)
-        {
-            StreamReader stream = null;
-            if (File.Exists(filepath))
-            {
-                stream = File.OpenText(filepath);
-                return;
-            }
-
-            
-            // expected structure
-            // 
-            // date; set of performance times; text of program
-            //
-            while (!stream.EndOfStream)
-            {
-                stream.ReadLine().Split(new char[1]{';'});
-            }
-
-
-            
-            
-            //MemoryMappedFile.CreateFromFile(filepath, System.IO.FileMode.Open);
-        }
-    }
-
-    [Serializable]
-    public class User
-    {
-        private string login;
-        private string password;
-        private string creditCard;
-        private DateTime birthDay;
-        private System.Drawing.Image photo;
-
-        public string Login { get { return login; } }
-        public string Password
-        {
-            get { return this.password; }
-            set { this.password = value; }
-        }
-        public System.Drawing.Image Photo { get { return this.photo; } }
-        public string CreditCard { get { return this.creditCard; } }
-        public DateTime BirthDay { get { return this.birthDay; } }
-
-        public User(string login, string password)
-        {
-            this.login = login;
-            this.password = password;
-            this.photo = null;
-            this.creditCard = "";
-            this.birthDay = new DateTime();
-        }
-
-        public void SetPhoto(System.Drawing.Image photo)
-        {
-            this.photo = photo;
-        }
-    }
 
     [Serializable]
     public class Ticket
     {
+        const int bookingTimeout = 5;
+        
         private Guid id;
         private DateTime date;
         private int time;
         private string program;
         private TicketStatus status;
-        private DateTime bookingTimeout;
+        private DateTime bookingTime;
+        private string bookingUser;
 
         public string ID { get { return id.ToString().Remove(9); } }
         public string Program { get { return program; } }
@@ -108,15 +43,40 @@ namespace TicketApp
 
         }
 
-        public void Book()
+        
+        public void Book(User user)
         {
             status = TicketStatus.Book;
-            bookingTimeout = DateTime.Now;
+            bookingTime = DateTime.Now;
+            bookingUser = user.Login;
         }
 
         public void Buy()
         {
             status = TicketStatus.Buy;
+        }
+
+        /// <summary>
+        /// returns false if user cannot buy ticket
+        /// </summary>
+        /// <param name="user"></param>
+        /// <returns></returns>
+        public bool BuyBack(User user)
+        {
+            if (bookingUser != user.Login)
+                return false;
+
+            if ((DateTime.Now - bookingTime).TotalMinutes > bookingTimeout)
+                return false;
+
+            status = TicketStatus.Buy;
+            return true;
+        }
+
+        public void Unbook()
+        {
+            if ((status == TicketStatus.Book) && (DateTime.Now - bookingTime).TotalMinutes > bookingTimeout)
+                status = TicketStatus.Available;
         }
     }
 

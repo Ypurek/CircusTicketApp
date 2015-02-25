@@ -48,10 +48,11 @@
             this.f1HelpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.aboutToolStripMenuItem1 = new System.Windows.Forms.ToolStripMenuItem();
             this.label2 = new System.Windows.Forms.Label();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.button_book = new System.Windows.Forms.Button();
+            this.button_buy = new System.Windows.Forms.Button();
             this.linkLabel2 = new System.Windows.Forms.LinkLabel();
             this.label3 = new System.Windows.Forms.Label();
+            this.button_buyback = new System.Windows.Forms.Button();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.trackBar1)).BeginInit();
             this.statusStrip1.SuspendLayout();
@@ -141,7 +142,7 @@
             this.trackBar1.Name = "trackBar1";
             this.trackBar1.Size = new System.Drawing.Size(200, 45);
             this.trackBar1.TabIndex = 4;
-            this.trackBar1.Value = 16;
+            this.trackBar1.Value = 18;
             this.trackBar1.Scroll += new System.EventHandler(this.trackBar1_Scroll);
             // 
             // textBox1
@@ -219,13 +220,13 @@
             // f1HelpToolStripMenuItem
             // 
             this.f1HelpToolStripMenuItem.Name = "f1HelpToolStripMenuItem";
-            this.f1HelpToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.f1HelpToolStripMenuItem.Size = new System.Drawing.Size(113, 22);
             this.f1HelpToolStripMenuItem.Text = "Help F1";
             // 
             // aboutToolStripMenuItem1
             // 
             this.aboutToolStripMenuItem1.Name = "aboutToolStripMenuItem1";
-            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(152, 22);
+            this.aboutToolStripMenuItem1.Size = new System.Drawing.Size(113, 22);
             this.aboutToolStripMenuItem1.Text = "About";
             this.aboutToolStripMenuItem1.Click += new System.EventHandler(this.aboutToolStripMenuItem1_Click);
             // 
@@ -239,25 +240,26 @@
             this.label2.TabIndex = 8;
             this.label2.Text = "Program";
             // 
-            // button1
+            // button_book
             // 
-            this.button1.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button1.Location = new System.Drawing.Point(435, 180);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(99, 23);
-            this.button1.TabIndex = 9;
-            this.button1.Text = "Book";
-            this.button1.UseVisualStyleBackColor = true;
+            this.button_book.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_book.Enabled = false;
+            this.button_book.Location = new System.Drawing.Point(435, 180);
+            this.button_book.Name = "button_book";
+            this.button_book.Size = new System.Drawing.Size(99, 23);
+            this.button_book.TabIndex = 9;
+            this.button_book.Text = "Book";
+            this.button_book.UseVisualStyleBackColor = true;
             // 
-            // button2
+            // button_buy
             // 
-            this.button2.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
-            this.button2.Location = new System.Drawing.Point(435, 209);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(99, 23);
-            this.button2.TabIndex = 10;
-            this.button2.Text = "Buy";
-            this.button2.UseVisualStyleBackColor = true;
+            this.button_buy.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_buy.Location = new System.Drawing.Point(435, 209);
+            this.button_buy.Name = "button_buy";
+            this.button_buy.Size = new System.Drawing.Size(99, 23);
+            this.button_buy.TabIndex = 10;
+            this.button_buy.Text = "Buy";
+            this.button_buy.UseVisualStyleBackColor = true;
             // 
             // linkLabel2
             // 
@@ -280,15 +282,27 @@
             this.label3.TabIndex = 12;
             this.label3.Text = "Performance Time:";
             // 
+            // button_buyback
+            // 
+            this.button_buyback.Anchor = ((System.Windows.Forms.AnchorStyles)((System.Windows.Forms.AnchorStyles.Bottom | System.Windows.Forms.AnchorStyles.Right)));
+            this.button_buyback.Enabled = false;
+            this.button_buyback.Location = new System.Drawing.Point(435, 238);
+            this.button_buyback.Name = "button_buyback";
+            this.button_buyback.Size = new System.Drawing.Size(99, 23);
+            this.button_buyback.TabIndex = 13;
+            this.button_buyback.Text = "Buyback";
+            this.button_buyback.UseVisualStyleBackColor = true;
+            // 
             // Form_Tickets
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(546, 496);
+            this.Controls.Add(this.button_buyback);
             this.Controls.Add(this.label3);
             this.Controls.Add(this.linkLabel2);
-            this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.button_buy);
+            this.Controls.Add(this.button_book);
             this.Controls.Add(this.label2);
             this.Controls.Add(this.statusStrip1);
             this.Controls.Add(this.menuStrip1);
@@ -336,9 +350,10 @@
         private System.Windows.Forms.ToolStripMenuItem f1HelpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem aboutToolStripMenuItem1;
         private System.Windows.Forms.Label label2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button button_book;
+        private System.Windows.Forms.Button button_buy;
         private System.Windows.Forms.LinkLabel linkLabel2;
         private System.Windows.Forms.Label label3;
+        private System.Windows.Forms.Button button_buyback;
     }
 }

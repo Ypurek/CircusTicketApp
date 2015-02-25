@@ -14,188 +14,116 @@ namespace TicketApp
 {
     public partial class Form_Logon : Form
     {
+        public UserManagement UserManager;
+        
         public Form_Logon()
         {
             InitializeComponent();
-            userList = new List<User>();
-            readUserList(TicketApp.Properties.Settings.Default.UserDB);
+            UserManager = new UserManagement(TicketApp.Properties.Settings.Default.UserDB);
         }
 
-        private void button2_Click(object sender, EventArgs e)
+        public new void Show()
         {
-            User user = new User("","");
-            
-            if (verifyUserExists(textBox1.Text))
-            {
-                foreach (User u in userList)
-                    if (textBox1.Text == u.Login)
-                        user = u;
-            }
-
-            if (user.Password != textBox2.Text)
-            {
-                textBoxInValid(textBox2, "bad password");
-                return;
-            }
-            else
-                textBoxValid(textBox2);
-
-            Form_Tickets TicketForm = new Form_Tickets(user);
-            this.Hide();
-            TicketForm.Show();
+            textBox_login.Clear();
+            textBox_pass.Clear();
+            base.Show();
         }
 
-        private void textBox1_Validating(object sender, CancelEventArgs e)
-        {
-            if (textBox1.Text == "")
-            {
-                e.Cancel = false;
-                return;
-            }
-            
-            if (verifyUserNameValid(textBox1.Text))
-            {
-                textBoxInValid(textBox1, "pattern mismatch");
-                e.Cancel = true;
-            }
-            else
-            {
-                textBoxValid(textBox1);
-                e.Cancel = false;
-            }
-        }
-
-        private List<User> userList;
-        
-        private void readUserList(string fileName)
-        {
-            userList.Clear();
-
-            if (!File.Exists(TicketApp.Properties.Settings.Default.UserDB))
-                return;
-
-            // work with files. try-catch for noobs
-            FileStream stream = File.OpenRead(fileName);
-            BinaryFormatter formatter = new BinaryFormatter();
-            userList = (List<User>) formatter.Deserialize(stream);
-            stream.Close();
-        }
-
-        private void writeUserList(string fileName)
-        {
-            // work with files. try-catch for noobs
-            FileStream stream = File.Create(fileName);
-            BinaryFormatter formatter = new BinaryFormatter();
-            formatter.Serialize(stream, userList);
-            stream.Close();
-        }
-
-        private void button1_Click(object sender, EventArgs e)
-        {
-            if (verifyUserExists(textBox1.Text))
-            {
-                textBoxInValid(textBox1, "user exists");
-                return;
-            }
-            else
-                textBoxValid(textBox1);
-            
-            User user = new User(textBox1.Text, //login
-                                  textBox2.Text); //pass
-            userList.Add(user);
-
-            writeUserList(TicketApp.Properties.Settings.Default.UserDB);
-            
-
-            Form_Tickets TicketForm = new Form_Tickets(user);
-            this.Hide();
-            TicketForm.Show();
-        }
-
-        /// <summary>
-        /// Checks if user name matches pattern
-        /// returns true if no
-        /// </summary>
-        /// <param name="login"></param>
-        private bool verifyUserNameValid(string login)
-        {
-            System.Text.RegularExpressions.Regex reg = new System.Text.RegularExpressions.Regex("^[a-zA-Z]{1,8}$");
-            if (!reg.IsMatch(login))
-                return true;
-            return false;
-        }
-
-        /// <summary>
-        /// Checks if user pass matches pattern
-        /// returns true if no
-        /// </summary>
-        /// <param name="login"></param>
-        private bool verifyUserPass(string pass)
-        {
-            if (pass.Length >= 1 && pass.Length <= 8)
-                return false;
-            return true;
-        }
-
-        /// <summary>
-        /// Checks if user name already exists in DB
-        /// returns true if username exist
-        /// </summary>
-        /// <param name="login"></param>
-        private bool verifyUserExists(string login)
-        {
-            foreach (User user in userList)
-            {
-                if (user.Login == login)
-                    return true;
-            }
-            return false;
-        }
-
-        private void textBoxValid(TextBox tb)
+        public static void textBoxValid(TextBox tb, ToolTip tt)
         {
             tb.BackColor = Color.White;
-            toolTip1.Hide(tb);
+            tt.Hide(tb);
         }
 
-        private void textBoxInValid(TextBox tb, string message)
+        public static void textBoxInvalid(TextBox tb, ToolTip tt, string message)
         {
             tb.BackColor = Color.Coral;
-            toolTip1.Show(message, tb);
+            tt.Show(message, tb);
         }
 
-        private void button4_Click(object sender, EventArgs e)
+        private void button_login_Click(object sender, EventArgs e)
         {
-            Application.Exit();
-        }
+            string errorMsg;
 
-        private void textBox2_Validating(object sender, CancelEventArgs e)
-        {
-            if (textBox2.Text == "")
+            if (!User.VerifyLogin(textBox_login.Text, out errorMsg))
             {
-                e.Cancel = false;
+                textBoxInvalid(textBox_login, toolTip1, errorMsg);
                 return;
             }
 
-            if (verifyUserPass(textBox2.Text))
+            if (!UserManager.verifyUserExists(textBox_login.Text))
             {
-                textBoxInValid(textBox2, "pattern mismatch");
-                e.Cancel = true;
+                textBoxInvalid(textBox_login, toolTip1, "user does not exist");
+                return;
             }
-            else
+
+            if (!User.VerifyPassword(textBox_pass.Text, out errorMsg))
             {
-                textBoxValid(textBox2);
-                e.Cancel = false;
+                textBoxInvalid(textBox_pass, toolTip1, errorMsg);
+                return;
             }
+
+            User user = UserManager.GetUserByName(textBox_login.Text);
+
+            if (user.Password != textBox_pass.Text)
+            {
+                textBoxInvalid(textBox_pass, toolTip1, "bad password");
+                return;
+            }
+
+            Form_Tickets TicketForm = new Form_Tickets(user);
+            this.Hide();
+            TicketForm.Show();
+        }
+ 
+        private void button_register_Click(object sender, EventArgs e)
+        {
+            string errorMsg;
+
+            if (!User.VerifyLogin(textBox_login.Text, out errorMsg))
+            {
+                textBoxInvalid(textBox_login, toolTip1, errorMsg);
+                return;
+            }
+
+            if (UserManager.verifyUserExists(textBox_login.Text))
+            {
+                textBoxInvalid(textBox_login, toolTip1, "user exists");
+                return;
+            }
+
+            if (!User.VerifyPassword(textBox_pass.Text, out errorMsg))
+            {
+                textBoxInvalid(textBox_pass, toolTip1, errorMsg);
+                return;
+            }
+
+            User user = new User(textBox_login.Text, //login
+                                  textBox_pass.Text); //pass
+            
+            UserManager.AddUser(user);
+
+            Form_Tickets TicketForm = new Form_Tickets(user);
+            this.Hide();
+            TicketForm.Show();
         }
 
-        private void button3_Click(object sender, EventArgs e)
+        private void button_anon_Click(object sender, EventArgs e)
         {
             Form_Tickets TicketForm = new Form_Tickets();
             this.Hide();
             TicketForm.Show();
         }
 
+        private void button_exit_Click(object sender, EventArgs e)
+        {
+            Application.Exit();
+        }
+
+        private void textBox_TextChanged(object sender, EventArgs e)
+        {
+            textBoxValid((TextBox)sender, toolTip1);
+        }
 
     }
 }

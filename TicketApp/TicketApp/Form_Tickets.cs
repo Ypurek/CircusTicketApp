@@ -13,19 +13,26 @@ namespace TicketApp
     public partial class Form_Tickets : Form
     {
         private User currentUser;
-        
+
         public Form_Tickets()
         {
             InitializeComponent();
             label3.Text = "Performance Time: " + get12hTime(trackBar1.Value);
             currentUser = new User("Anonymous", "");
             linkLabel1.Text = currentUser.Login;
+
+
         }
 
         public Form_Tickets(User user) : this()
         {
             currentUser = user;
             linkLabel1.Text = currentUser.Login;
+            linkLabel1.LinkClicked += linkLabel1_LinkClicked;
+
+            button_book.Enabled = true;
+            button_buyback.Enabled = true;
+
         }
 
         private void Form_Tickets_FormClosed(object sender, FormClosedEventArgs e)
@@ -76,6 +83,11 @@ namespace TicketApp
         {
 
 
+        }
+
+        private void linkLabel1_LinkClicked(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+            Personal_Info PersonalInfo = new Personal_Info(currentUser);
         }
 
     }

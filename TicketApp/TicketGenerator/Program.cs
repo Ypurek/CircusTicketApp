@@ -39,6 +39,19 @@ TicketGenerator.exe [StartDate] [EndDate] [StartTime] [EndTime] [TicketNumber] [
 
         static void Main(string[] args)
         {
+            //string text = "";
+            //Random rr = new Random(7);
+
+            //for (int i = 0; i < 20; i++ )
+            //    text += rr.Next(10000000, 99999999).ToString() + Environment.NewLine;
+
+
+            //File.WriteAllText("coupons.txt", text);
+
+            //return;
+            
+            ////------------------------------------------
+
             if (args == null)
             {
                 Console.Write(help);

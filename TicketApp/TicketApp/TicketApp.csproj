@@ -73,6 +73,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Booking.cs" />
+    <Compile Include="Coupons.cs" />
     <Compile Include="Form_Logon.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -85,13 +86,23 @@
     <Compile Include="Form_Tickets.Designer.cs">
       <DependentUpon>Form_Tickets.cs</DependentUpon>
     </Compile>
+    <Compile Include="Personal Info.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="Personal Info.Designer.cs">
+      <DependentUpon>Personal Info.cs</DependentUpon>
+    </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="UserManager.cs" />
     <EmbeddedResource Include="Form_Logon.resx">
       <DependentUpon>Form_Logon.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Form_tickets.resx">
       <DependentUpon>Form_Tickets.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Personal Info.resx">
+      <DependentUpon>Personal Info.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="Properties\Resources.resx">
       <Generator>ResXFileCodeGenerator</Generator>
@@ -134,9 +145,13 @@
     </BootstrapperPackage>
   </ItemGroup>
   <ItemGroup>
+    <Content Include="coupons.txt">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="ReadMe.txt">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <None Include="Resources\Person_img.png" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
