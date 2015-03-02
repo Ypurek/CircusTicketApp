@@ -25,28 +25,30 @@ namespace TicketApp
         List<string> coupons;
         Ticket ticket;
         User user;
+        int Captcha;
 
         string fileName = TicketApp.Properties.Settings.Default.CouponDB;
 
         double FinalPrice;
 
-        public Form_Buy(Form_Tickets form, User user, Ticket ticket)
+        public Form_Buy(Form_Tickets form, User user)
         {
             this.form = form;
             this.user = user;
+            this.ticket = null;
 
             InitializeComponent();
-            textBox_ticket.ReadOnly = true;
-            textBox_ticket.Text = ticket.ID;
+            Captcha = SetCaptcha();
+
+            //textBox_ticket.ReadOnly = true;
+            //textBox_ticket.Text = ticket.ID;
             if (user.CreditCard.Length != 0)
                 textBox_credit.Text = user.CreditCard;
 
-            FinalPrice = getFinalPrice(ticket);
-            label_price.Text = FinalPrice.ToString();
+            //FinalPrice = getFinalPrice(ticket);
+            label_price.Text = "-";
 
             getCoupons();
-
-            this.ticket = ticket;
 
             if (user.Login == "Anonymous")
             {
@@ -59,33 +61,35 @@ namespace TicketApp
                 textBox_captcha.Enabled = false;
             }
         }
-
-        public Form_Buy(Form_Tickets form, User user)
+        
+        public Form_Buy(Form_Tickets form, User user, Ticket ticket): this(form, user)
         {
-            this.form = form;
-            this.user = user;
-
-            InitializeComponent();
             textBox_ticket.ReadOnly = true;
             textBox_ticket.Text = ticket.ID;
-            if (user.CreditCard.Length != 0)
-                textBox_credit.Text = user.CreditCard;
 
             FinalPrice = getFinalPrice(ticket);
             label_price.Text = FinalPrice.ToString();
 
-            getCoupons();
+            this.ticket = ticket;
+        }
 
-            if (user.Login == "Anonymous")
+
+        public int SetCaptcha()
+        {
+            Random r = new Random(123);
+            int captcha = r.Next(1, 5);
+            
+            // stupid resources
+            switch (captcha)
             {
-                pictureBox1.Enabled = true;
-                textBox_captcha.Enabled = true;
+                case 1: pictureBox1.Image = TicketApp.Properties.Resources.cats_1; break;
+                case 2: pictureBox1.Image = TicketApp.Properties.Resources.cats_2; break;
+                case 3: pictureBox1.Image = TicketApp.Properties.Resources.cats_3; break;
+                case 4: pictureBox1.Image = TicketApp.Properties.Resources.cats_4; break;
+                case 5: pictureBox1.Image = TicketApp.Properties.Resources.cats; break;
             }
-            else
-            {
-                pictureBox1.Enabled = false;
-                textBox_captcha.Enabled = false;
-            }
+
+            return captcha;
         }
 
         public int getFinalPrice(Ticket t)
@@ -140,6 +144,34 @@ namespace TicketApp
             {
                 Form_Logon.textBoxInvalid(textBox_coupon, toolTip1, "bad format");
                 return;
+            }
+
+            if (!int.TryParse(textBox_captcha.Text, out temp) && textBox_captcha.Text.Length != 1 && textBox_captcha.Text.Length > 0 && user.Login == "Anonymous")
+            {
+                Form_Logon.textBoxInvalid(textBox_captcha, toolTip1, "bad format");
+                return;
+            }
+
+            if (temp != Captcha && user.Login == "Anonymous")
+            {
+                Form_Logon.textBoxInvalid(textBox_captcha, toolTip1, "wrong captcha");
+                Captcha = SetCaptcha();
+                return;
+            }
+
+            if (this.ticket == null)
+            {
+                if ((this.ticket = this.form.TManager.GetTicketByID(textBox_ticket.Text)) != null)
+                {
+                    FinalPrice = TicketPrice;
+                    if (ticket.Snack) FinalPrice += SnakPrice;
+                    if (ticket.Pet.Length != 0) FinalPrice += PetPrice;
+                }
+                else
+                {
+                    Form_Logon.textBoxInvalid(textBox_ticket, toolTip1, "ticketID not found");
+                    return;
+                }
             }
 
             if (!coupons.Contains(textBox_coupon.Text) && textBox_coupon.Text.Length > 0)

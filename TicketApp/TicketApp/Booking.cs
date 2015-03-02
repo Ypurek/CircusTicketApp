@@ -166,6 +166,11 @@ namespace TicketApp
             
             writeTicketsDB();
         }
+
+        public Ticket GetTicketByID(string id)
+        {
+            return ticketList.Find(x => x.ID == id);
+        }
     }
 
     public enum TicketStatus

@@ -42,8 +42,8 @@
             this.label_price = new System.Windows.Forms.Label();
             this.textBox_captcha = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
-            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.toolTip1 = new System.Windows.Forms.ToolTip(this.components);
+            this.pictureBox1 = new System.Windows.Forms.PictureBox();
             this.groupBox1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.SuspendLayout();
@@ -153,6 +153,7 @@
             this.textBox_captcha.Name = "textBox_captcha";
             this.textBox_captcha.Size = new System.Drawing.Size(96, 20);
             this.textBox_captcha.TabIndex = 11;
+            this.textBox_captcha.TextChanged += new System.EventHandler(this.textBox_TextChanged);
             // 
             // label5
             // 
@@ -165,7 +166,7 @@
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Image = global::TicketApp.Properties.Resources.cats;
+            this.pictureBox1.Image = global::TicketApp.Properties.Resources.cats_4;
             this.pictureBox1.Location = new System.Drawing.Point(180, 83);
             this.pictureBox1.Name = "pictureBox1";
             this.pictureBox1.Size = new System.Drawing.Size(122, 104);

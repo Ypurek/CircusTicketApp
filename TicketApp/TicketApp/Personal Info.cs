@@ -13,7 +13,6 @@ namespace TicketApp
 {
     public partial class Personal_Info : Form
     {
-        
         private User user;
         private bool newPhoto;
         private byte[] imageArray;
