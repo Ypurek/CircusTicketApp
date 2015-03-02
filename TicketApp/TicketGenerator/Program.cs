@@ -52,18 +52,10 @@ TicketGenerator.exe [StartDate] [EndDate] [StartTime] [EndTime] [TicketNumber] [
             
             ////------------------------------------------
 
-            if (args == null)
-            {
-                Console.Write(help);
-                Console.WriteLine("Press any key to exit");
-                Console.ReadKey();
-                return;
-            }
-
             if (args.Length != 7)
             {
-                Console.WriteLine("Bad number of arguments");
-                Console.WriteLine("Press any key to exit");
+                Console.Write(help);
+                Console.WriteLine("{0}{1}Press any key to exit", Environment.NewLine, Environment.NewLine);
                 Console.ReadKey();
                 return;
             }

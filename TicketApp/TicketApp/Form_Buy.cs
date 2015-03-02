@@ -13,6 +13,9 @@ namespace TicketApp
 {
     public partial class Form_Buy : Form
     {
+        // bug can be here
+        static Random r = new Random();
+        
         const int TicketPrice = 100;
         const int SnakPrice = 10;
         const int PetPrice = 50;
@@ -76,7 +79,7 @@ namespace TicketApp
 
         public int SetCaptcha()
         {
-            Random r = new Random(123);
+            
             int captcha = r.Next(1, 5);
             
             // stupid resources

@@ -12,6 +12,8 @@ namespace TicketApp
     [Serializable]
     public class Ticket
     {
+        private static Random r = new Random();
+
         const int bookingTimeout = 5;
         
         private int id;
@@ -33,7 +35,6 @@ namespace TicketApp
 
         public Ticket()
         {
-            Random r = new Random(42);
             id = r.Next(10000000, 99999999);
             status = TicketStatus.Available;
         }

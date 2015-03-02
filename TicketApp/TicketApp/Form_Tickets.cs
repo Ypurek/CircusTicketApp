@@ -229,5 +229,10 @@ namespace TicketApp
             this.Hide();
         }
 
+        private void f1HelpToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            MessageBox.Show("Help yourself :)", "help");
+        }
+
     }
 }
