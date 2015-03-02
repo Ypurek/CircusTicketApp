@@ -31,10 +31,10 @@ TicketGenerator.exe [StartDate] [EndDate] [StartTime] [EndTime] [TicketNumber] [
         const int variants = 4;
         static string[] programs = new string[variants]
         {
-            "СЕГОДНЯ В ПРОГРАММЕ" + Environment.NewLine + "Слоны и предел человеческой ловкости",
-            "СЕГОДНЯ В ПРОГРАММЕ" + Environment.NewLine + "Куклачев и его дрессированые коты",
-            "СЕГОДНЯ В ПРОГРАММЕ" + Environment.NewLine + "Собаки-танцеваки и собаки-кусаки",
-            "СЕГОДНЯ В ПРОГРАММЕ" + Environment.NewLine + "Грустные клоуны и сплошное уныние"
+            "Увидеть живого белого слона и всемирно известный аттракцион иллюзий, который объездил почти весь мир. Насладиться полетами призеров Международного фестиваля воздушных гимнастов. Стать свидетелями сенсационного представления от лучшего жонглера мира, а также вас ждут выступления фокусников, клоунов, глотателей огня... и буря незабываемых эмоций!",
+            "Бурые медведи на велосипедах, прыгающие сквозь огонь собаки, трюки без страховки прямо под куполом цирка от призеров крупнейших фестивалей цирка, захватывающие дух акробатические номера и чудесные перевоплощения, выступление талантливого итальянского укротителя Эммануэля Фарины с львами и тиграми…",
+            "Аргонавты\" - яркое и красочное театрально-цирковое шоу по мотивам знаменитой древнегреческой легенды о путешествии мореплавателей корабля \"Арго\" за золотым руном. Предводимые мужественным Ясоном, аргонавты должны возвратить в Грецию священную реликвию. На пути героям встречаются прекрасные женщины, мудрые кентавры, огненные быки и полчища врагов. В программе шоу: воздушные гимнасты, вравщающиеся на огненных кубах, акробаты, выполняющие трюки на высоте 15 метров, хореографические сцены с участием профессиональных танцоров знаменитых школ \"Тодес\" и \"Дункан\".",
+            "Сегодня и только сегодня можно увидеть танцующего слона под самым куполом цирка. Насладиться fireshow от лучших мировых артистов. Также в программе смертельнве трюки гимнастов на ремнях, где нельзя ошибится. И конечно же весёлый клоун, который не оставит равнодушным ни единого ребёнка и взрослого!"
         };
 
         static void Main(string[] args)
@@ -111,12 +111,7 @@ TicketGenerator.exe [StartDate] [EndDate] [StartTime] [EndTime] [TicketNumber] [
                     return;
                 }
 
-                Random r = new Random(8);
-
-                if (args[5] != "-R")
-                    Program = args[5];
-                else
-                    Program = GenerateProgram(r);
+ 
 
                 switch(args[6])
                 {
@@ -131,12 +126,12 @@ TicketGenerator.exe [StartDate] [EndDate] [StartTime] [EndTime] [TicketNumber] [
                 if(key)
                 {
                     List<Ticket> tickets = readTicketsDB("ticketsDB.dat");
-                    tickets = GenerateTickets(tickets, StartDate, EndDate, StartTime, EndTime, TicketNumber, Program);
+                    tickets = GenerateTickets(tickets, StartDate, EndDate, StartTime, EndTime, TicketNumber, "");
                     writeTicketsDB(tickets, "ticketsDB.dat");
                 }
                 else
                 {
-                    List<Ticket> tickets = GenerateTickets(StartDate, EndDate, StartTime, EndTime, TicketNumber, Program);
+                    List<Ticket> tickets = GenerateTickets(StartDate, EndDate, StartTime, EndTime, TicketNumber, "");
                     writeTicketsDB(tickets, "ticketsDB.dat");
                 }
 
@@ -178,16 +173,21 @@ TicketGenerator.exe [StartDate] [EndDate] [StartTime] [EndTime] [TicketNumber] [
             int x = (int)(EndDate - StartDate).TotalDays;
             int y = EndTime - StartTime;
 
+            Random r = new Random(8);
+
+            string program111 = "";
+
             DateTime f = StartDate + new TimeSpan(1, 0, 0, 0);
 
             for(int i = 0; i < x; i++)
             {
+                program111 = GenerateProgram(r);
                 for(int j = 0; j < y; j++)
                 {
                     for (int h = 0; h < TicketNumber; h++)
-                        TicketList.Add(new Ticket(Program,
+                        TicketList.Add(new Ticket(program111,
                                                   StartDate + new TimeSpan(i, 0, 0, 0),
-                                                  j));
+                                                  StartTime + j));
                 }
             }
 
