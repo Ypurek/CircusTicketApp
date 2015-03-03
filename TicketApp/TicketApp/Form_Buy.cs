@@ -130,7 +130,10 @@ namespace TicketApp
 
         private void button_buy_Click(object sender, EventArgs e)
         {
-            if (!User.CheckCreditCard(textBox_credit.Text) && textBox_credit.Text.Length > 0)
+            bool b1, b2;
+            b1 = !User.CheckCreditCard(textBox_credit.Text);
+            b2 = textBox_credit.Text.Length > 0 && textBox_credit.Text.Length < 19;
+            if (b1 || b2)
             {
                 Form_Logon.textBoxInvalid(textBox_credit, toolTip1, "bad format");
                 return;
@@ -164,7 +167,7 @@ namespace TicketApp
 
             if (this.ticket == null)
             {
-                if ((this.ticket = this.form.TManager.GetTicketByID(textBox_ticket.Text)) != null)
+                if ((this.ticket = this.form.TManager.GetBookedTicketByID(textBox_ticket.Text)) != null)
                 {
                     FinalPrice = TicketPrice;
                     if (ticket.Snack) FinalPrice += SnakPrice;
@@ -201,6 +204,8 @@ namespace TicketApp
                 Environment.NewLine,
                 FinalPrice),
                 "Congratulations!");
+
+            this.Close();
         }
 
         private void textBox_TextChanged(object sender, EventArgs e)

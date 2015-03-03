@@ -168,9 +168,9 @@ namespace TicketApp
             writeTicketsDB();
         }
 
-        public Ticket GetTicketByID(string id)
+        public Ticket GetBookedTicketByID(string id)
         {
-            return ticketList.Find(x => x.ID == id);
+            return ticketList.Find(x => x.ID == id && x.Status == TicketStatus.Book);
         }
     }
 
