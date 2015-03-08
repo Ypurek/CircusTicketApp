@@ -5,6 +5,7 @@ using System.Text;
 //using System.Threading.Tasks;
 using System.IO;
 using System.Runtime.Serialization.Formatters.Binary;
+using System.Timers;
 
 namespace TicketApp
 {
@@ -29,7 +30,7 @@ namespace TicketApp
 
         public DateTime Date { get { return date; } }
         public int Time { get { return time; } }
-        public TicketStatus Status { get { return status; } }
+        public TicketStatus Status { get { return status; }}
         public string ID { get { return id.ToString(); } }
         public string Program { get { return program; } }
 
@@ -92,11 +93,20 @@ namespace TicketApp
     {
         private List<Ticket> ticketList;
         private string fileName;
+        private Timer timer;
 
         public TicketManager(string fileName)
         {
             this.fileName = fileName;
             readTicketsDB();
+            timer = new Timer(1 * 60 * 1000); // once a minute
+            timer.Elapsed += timer_Elapsed;
+            timer.Enabled = true;
+        }
+
+        void timer_Elapsed(object sender, ElapsedEventArgs e)
+        {
+            Refresh();
         }
 
         public void writeTicketsDB()
@@ -130,6 +140,17 @@ namespace TicketApp
             BinaryFormatter formatter = new BinaryFormatter();
             TicketList = (List<Ticket>)formatter.Deserialize(stream);
             stream.Close();
+
+            foreach (Ticket t in TicketList)
+            {
+                if (t.Date < DateTime.Today)
+                {
+                    t.Buy();
+                    continue;
+                }
+                if (t.Time < DateTime.Now.Hour && t.Date == DateTime.Today)
+                    t.Buy();
+            }
 
             return TicketList;
         }

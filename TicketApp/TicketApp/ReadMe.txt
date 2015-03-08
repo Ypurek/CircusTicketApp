@@ -21,8 +21,8 @@ Fixed issues:
  - Personal Info menu item renamed
  - Personal Info window for anonymous disabled
  - Book, buy ticket with pet issue fixed
- - 
-
+ - Old tickets cannot be bougth
+ - Unbook ticket after 5 minutes
 
 VERSION 0.3.1
  - Credit card verification issue fixed
