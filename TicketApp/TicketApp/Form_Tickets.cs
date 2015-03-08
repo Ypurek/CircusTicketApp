@@ -34,6 +34,7 @@ namespace TicketApp
 
             button_book.Enabled = true;
             button_buyback.Enabled = true;
+            accountSettingsToolStripMenuItem.Enabled = true;
 
         }
 
@@ -172,9 +173,11 @@ namespace TicketApp
                 {
                     case "Cat": if (program.Contains("собак")) comboInvaild(); return false;
                     case "Mouse": if (program.Contains("слон")) comboInvaild(); return false;
-                    default: comboBox1.BackColor = Color.White; toolTip1.Hide(comboBox1); break;
+                    case "": comboInvaild(); return false;
                 }
-            
+
+            comboBox1.BackColor = Color.White;
+            toolTip1.Hide(comboBox1);
             return true;
         }
 
@@ -232,6 +235,11 @@ namespace TicketApp
         private void f1HelpToolStripMenuItem_Click(object sender, EventArgs e)
         {
             MessageBox.Show("Help yourself :)", "help");
+        }
+
+        private void linkLabel1_LinkClicked_1(object sender, LinkLabelLinkClickedEventArgs e)
+        {
+
         }
 
     }
